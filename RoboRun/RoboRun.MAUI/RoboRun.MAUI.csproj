@@ -49,8 +49,32 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Remove="View\LoadGamePage.xaml" />
+	  <MauiXaml Remove="View\SaveGamePage.xaml" />
+	  <MauiXaml Remove="View\SettingsPage.xaml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="View\LoadGamePage.xaml">
+	    <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="View\SaveGamePage.xaml">
+	    <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="View\SettingsPage.xaml">
+	    <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+	  </EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
 	  <ProjectReference Include="..\..\..\RoboRun-WPF\RoboRun\RoboRun.ViewModel\RoboRun.ViewModel.csproj" />
 	  <ProjectReference Include="..\..\..\RoboRun\RoboRun\RoboRun.Model\RoboRun.Model.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="View\GamePage.xaml.cs">
+	    <DependentUpon>GamePage.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 </Project>
