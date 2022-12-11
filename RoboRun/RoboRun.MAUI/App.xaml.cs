@@ -37,10 +37,57 @@ public partial class App : Application
 
 		_appShell = new AppShell(_roboRunStore, _roboRunDataAccess, _roboRunModel, _roboRunViewModel)
 		{
-			BindingContext = _roboRunViewModel;
+			BindingContext = _roboRunViewModel
 		};
 		MainPage = _appShell;
 	}
+
+    #endregion
+
+    #region Application methods
+
+    protected override Window CreateWindow(IActivationState? activationState)
+    {
+		Window window = base.CreateWindow(activationState);
+
+		window.Created += (s, e) =>
+		{
+			_roboRunModel.NewGame();
+			_appShell.StartTimer();
+		};
+
+		window.Activated += (s, e) =>
+		{
+			if (!File.Exists(Path.Combine(FileSystem.AppDataDirectory, SuspendedGameSavePath)))
+				return;
+
+			Task.Run(async () =>
+			{
+				try
+				{
+					await _roboRunModel.LoadGameAsync(SuspendedGameSavePath);
+
+					_appShell.StartTimer();
+				}
+				catch {}
+			});
+		};
+
+		window.Stopped += (s, e) =>
+		{
+			Task.Run(async () =>
+			{
+				try
+				{
+					_appShell.StopTimer();
+					await _roboRunModel.SaveGameAsync(SuspendedGameSavePath);
+				}
+				catch {}
+			});
+		};
+
+		return window;
+    }
 
     #endregion
 }
