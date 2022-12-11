@@ -32,7 +32,14 @@ public partial class App : Application
 		_roboRunStore = new RoboRunStore();
 		_roboRunDataAccess = new RoboRunFileDataAccess(FileSystem.AppDataDirectory);
 
+		_roboRunModel = new RoboRunModel(_roboRunDataAccess);
+		_roboRunViewModel = new RoboRunViewModel(_roboRunModel);
 
+		_appShell = new AppShell(_roboRunStore, _roboRunDataAccess, _roboRunModel, _roboRunViewModel)
+		{
+			BindingContext = _roboRunViewModel;
+		};
+		MainPage = _appShell;
 	}
 
     #endregion
