@@ -30,6 +30,9 @@ public partial class App : Application
 		InitializeComponent();
 
 		_roboRunStore = new RoboRunStore();
+		_roboRunDataAccess = new RoboRunFileDataAccess(FileSystem.AppDataDirectory);
+
+
 	}
 
     #endregion
