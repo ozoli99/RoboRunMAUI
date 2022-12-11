@@ -1,5 +1,4 @@
-﻿using Java.Security.Cert;
-using RoboRun.Model;
+﻿using RoboRun.Model;
 using RoboRun.Persistence;
 using RoboRun.ViewModel;
 
@@ -52,7 +51,19 @@ public partial class App : Application
 
 		window.Created += (s, e) =>
 		{
-			_roboRunModel.NewGame();
+            Random random = new Random();
+            int x, y;
+            x = random.Next((int)_roboRunModel.GameTableSize);
+            y = random.Next((int)_roboRunModel.GameTableSize);
+            while (x == (int)_roboRunModel.GameTableSize / 2 && y == (int)_roboRunModel.GameTableSize / 2)
+            {
+                x = random.Next((int)_roboRunModel.GameTableSize);
+                y = random.Next((int)_roboRunModel.GameTableSize);
+            }
+            Array values = Enum.GetValues(typeof(Direction));
+            Direction randomDirection = (Direction)values.GetValue(random.Next(values.Length));
+            
+			_roboRunModel.NewGame(x, y, randomDirection);
 			_appShell.StartTimer();
 		};
 
